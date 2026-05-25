@@ -8,15 +8,16 @@ function StatCard({ label, value, color, delay }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       style={{
-        background: '#111',
-        border: '1px solid rgba(212,175,55,0.15)',
+        background: '#fffdf7',
+        border: '1px solid rgba(184,134,11,0.2)',
         borderRadius: '4px',
         padding: '20px 24px',
         flex: '1 1 140px',
         minWidth: '120px',
+        boxShadow: '0 2px 12px rgba(184,134,11,0.06)',
       }}
     >
-      <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.25em', color: 'rgba(245,240,232,0.4)', textTransform: 'uppercase', marginBottom: '8px' }}>
+      <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.25em', color: 'rgba(44,24,16,0.45)', textTransform: 'uppercase', marginBottom: '8px' }}>
         {label}
       </div>
       <div style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: '36px', color, lineHeight: 1 }}>
@@ -51,64 +52,49 @@ export default function OverviewTab({ invitees }) {
   }, [])
 
   const statusLabel = (r) => {
-    if (r === 'attending') return { label: 'Attending', color: '#4ade80' }
-    if (r === 'declined') return { label: 'Declined', color: '#f87171' }
-    return { label: 'Pending', color: '#fbbf24' }
+    if (r === 'attending') return { label: 'Attending', color: '#2d7a47' }
+    if (r === 'declined') return { label: 'Declined', color: '#a33030' }
+    return { label: 'Pending', color: '#8a6500' }
   }
 
   return (
     <div>
       {/* Stat cards */}
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
-        <StatCard label="Total Invited" value={invitees.length} color="#d4af37" delay={0} />
-        <StatCard label="Attending" value={attending.length} color="#4ade80" delay={0.05} />
-        <StatCard label="Declined" value={declined.length} color="#f87171" delay={0.1} />
-        <StatCard label="Pending" value={pending.length} color="#fbbf24" delay={0.15} />
-        <StatCard label="Total Guests" value={totalGuests} color="#d4af37" delay={0.2} />
+        <StatCard label="Total Invited" value={invitees.length} color="#b8860b" delay={0} />
+        <StatCard label="Attending" value={attending.length} color="#2d7a47" delay={0.05} />
+        <StatCard label="Declined" value={declined.length} color="#a33030" delay={0.1} />
+        <StatCard label="Pending" value={pending.length} color="#8a6500" delay={0.15} />
+        <StatCard label="Total Guests" value={totalGuests} color="#b8860b" delay={0.2} />
       </div>
 
       {/* Response rate bar */}
-      <div ref={barRef} style={{ marginBottom: '28px' }}>
-        <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.25em', color: 'rgba(245,240,232,0.4)', textTransform: 'uppercase', marginBottom: '10px' }}>
+      <div ref={barRef} style={{ marginBottom: '28px', background: '#fffdf7', border: '1px solid rgba(184,134,11,0.15)', borderRadius: '4px', padding: '20px 24px', boxShadow: '0 2px 12px rgba(184,134,11,0.06)' }}>
+        <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.25em', color: 'rgba(44,24,16,0.45)', textTransform: 'uppercase', marginBottom: '10px' }}>
           Response Rate — {Math.round(responseRate)}%
         </div>
-        <div style={{ height: '8px', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', overflow: 'hidden', display: 'flex' }}>
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: barVisible ? `${attendRate}%` : 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            style={{ background: '#4ade80', height: '100%' }}
-          />
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: barVisible ? `${declineRate}%` : 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            style={{ background: '#f87171', height: '100%' }}
-          />
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: barVisible ? `${pendingRate}%` : 0 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            style={{ background: '#fbbf24', height: '100%' }}
-          />
+        <div style={{ height: '8px', background: 'rgba(44,24,16,0.08)', borderRadius: '4px', overflow: 'hidden', display: 'flex' }}>
+          <motion.div initial={{ width: 0 }} animate={{ width: barVisible ? `${attendRate}%` : 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }} style={{ background: '#2d7a47', height: '100%' }} />
+          <motion.div initial={{ width: 0 }} animate={{ width: barVisible ? `${declineRate}%` : 0 }} transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }} style={{ background: '#a33030', height: '100%' }} />
+          <motion.div initial={{ width: 0 }} animate={{ width: barVisible ? `${pendingRate}%` : 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }} style={{ background: '#8a6500', height: '100%' }} />
         </div>
-        <div style={{ display: 'flex', gap: '16px', marginTop: '8px', flexWrap: 'wrap' }}>
-          {[['#4ade80', `Attending ${Math.round(attendRate)}%`], ['#f87171', `Declined ${Math.round(declineRate)}%`], ['#fbbf24', `Pending ${Math.round(pendingRate)}%`]].map(([c, t]) => (
+        <div style={{ display: 'flex', gap: '16px', marginTop: '10px', flexWrap: 'wrap' }}>
+          {[['#2d7a47', `Attending ${Math.round(attendRate)}%`], ['#a33030', `Declined ${Math.round(declineRate)}%`], ['#8a6500', `Pending ${Math.round(pendingRate)}%`]].map(([c, t]) => (
             <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <div style={{ width: '8px', height: '8px', borderRadius: '2px', background: c }} />
-              <span style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', color: 'rgba(245,240,232,0.4)', letterSpacing: '0.1em' }}>{t}</span>
+              <span style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', color: 'rgba(44,24,16,0.5)', letterSpacing: '0.1em' }}>{t}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Recent responses */}
-      <div>
-        <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.25em', color: 'rgba(245,240,232,0.4)', textTransform: 'uppercase', marginBottom: '14px' }}>
+      <div style={{ background: '#fffdf7', border: '1px solid rgba(184,134,11,0.15)', borderRadius: '4px', padding: '20px 24px', boxShadow: '0 2px 12px rgba(184,134,11,0.06)' }}>
+        <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.25em', color: 'rgba(44,24,16,0.45)', textTransform: 'uppercase', marginBottom: '14px' }}>
           Recent Responses
         </div>
         {recent.length === 0 ? (
-          <div style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', color: 'rgba(245,240,232,0.3)', fontSize: '15px', padding: '20px 0' }}>
+          <div style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', color: 'rgba(44,24,16,0.35)', fontSize: '15px', padding: '12px 0' }}>
             No responses yet
           </div>
         ) : (
@@ -116,25 +102,13 @@ export default function OverviewTab({ invitees }) {
             {recent.map(inv => {
               const s = statusLabel(inv.rsvp)
               return (
-                <div key={inv.id} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '12px 16px',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(212,175,55,0.08)',
-                  borderRadius: '3px',
-                  flexWrap: 'wrap', gap: '8px',
-                }}>
-                  <span style={{ fontFamily: 'Cinzel, serif', fontSize: '12px', color: '#f5f0e8', letterSpacing: '0.05em' }}>{inv.name}</span>
+                <div key={inv.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: 'rgba(184,134,11,0.04)', border: '1px solid rgba(184,134,11,0.1)', borderRadius: '3px', flexWrap: 'wrap', gap: '8px' }}>
+                  <span style={{ fontFamily: 'Cinzel, serif', fontSize: '12px', color: '#2c1810', letterSpacing: '0.05em' }}>{inv.name}</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', color: 'rgba(245,240,232,0.3)' }}>
+                    <span style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', color: 'rgba(44,24,16,0.4)' }}>
                       {inv.responded_at ? new Date(inv.responded_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '—'}
                     </span>
-                    <span style={{
-                      fontFamily: 'Cinzel, serif', fontSize: '8px', letterSpacing: '0.2em',
-                      color: s.color, padding: '3px 8px',
-                      border: `1px solid ${s.color}40`, borderRadius: '2px',
-                      textTransform: 'uppercase',
-                    }}>
+                    <span style={{ fontFamily: 'Cinzel, serif', fontSize: '8px', letterSpacing: '0.2em', color: s.color, padding: '3px 8px', border: `1px solid ${s.color}50`, borderRadius: '2px', textTransform: 'uppercase' }}>
                       {s.label}
                     </span>
                   </div>
