@@ -24,12 +24,12 @@ export default function Dashboard() {
   useEffect(() => { fetchInvitees() }, [fetchInvitees])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#080808', color: '#f5f0e8' }}>
+    <div style={{ minHeight: '100vh', background: '#f7f0e6', color: '#2c1810' }}>
 
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(180deg, #0d0b07, #0a0805)',
-        borderBottom: '1px solid rgba(212,175,55,0.12)',
+        background: 'linear-gradient(180deg, #fdf8f0, #faf3e8)',
+        borderBottom: '1px solid rgba(184,134,11,0.15)',
         padding: 'clamp(16px, 3vw, 24px) clamp(20px, 4vw, 48px)',
         display: 'flex',
         justifyContent: 'space-between',
@@ -41,7 +41,7 @@ export default function Dashboard() {
         zIndex: 100,
       }}>
         <div>
-          <div style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: 'clamp(14px, 3vw, 20px)', color: '#d4af37', letterSpacing: '0.06em' }}>
+          <div style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: 'clamp(14px, 3vw, 20px)', color: '#b8860b', letterSpacing: '0.06em' }}>
             Herald &amp; Angel
           </div>
           <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.3em', color: 'rgba(212,175,55,0.45)', textTransform: 'uppercase', marginTop: '4px' }}>
@@ -74,7 +74,7 @@ export default function Dashboard() {
                 fontSize: '10px',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: tab === i ? '#d4af37' : 'rgba(245,240,232,0.35)',
+                color: tab === i ? '#b8860b' : 'rgba(245,240,232,0.35)',
                 padding: '12px 20px',
                 position: 'relative',
                 transition: 'color 0.2s',
@@ -90,7 +90,7 @@ export default function Dashboard() {
                     left: 0,
                     right: 0,
                     height: '2px',
-                    background: '#d4af37',
+                    background: '#b8860b',
                   }}
                   transition={{ type: 'spring', stiffness: 500, damping: 40 }}
                 />

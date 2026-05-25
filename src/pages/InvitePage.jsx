@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { supabase } from '../lib/supabase'
-import ParticleCanvas from '../components/ParticleCanvas'
+import FloralBackground from '../components/ParticleCanvas'
 import RosePetals from '../components/RosePetals'
 import Loader from '../components/Loader'
 import Countdown from '../components/Countdown'
@@ -22,24 +22,15 @@ export default function InvitePage() {
 
   useEffect(() => {
     const fetch = async () => {
-      const { data, error } = await supabase
-        .from('invitees')
-        .select('*')
-        .eq('slug', slug)
-        .single()
-
-      if (error || !data) {
-        setNotFound(true)
-      } else {
-        setInvitee(data)
-      }
+      const { data, error } = await supabase.from('invitees').select('*').eq('slug', slug).single()
+      if (error || !data) setNotFound(true)
+      else setInvitee(data)
       setLoading(false)
     }
     fetch()
   }, [slug])
 
   const handleLoaderDone = () => setShowLoader(false)
-
   const guestName = invitee?.name || 'Dear Guest'
   const firstName = guestName.split(' ')[0]
 
@@ -47,172 +38,119 @@ export default function InvitePage() {
     `Greetings ${guestName}! The family of Herald Thomas and Swapna Biju cordially invite you to their Betrothal on Thursday 1st October 2026 at La Maria Castle, Eranellur, Thrissur at 6 PM. View your personal invitation here: ${window.location.href}`
   )
 
-  const heroVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.25 } },
-  }
-  const heroItem = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
-  }
+  const heroVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.25 } } }
+  const heroItem = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } }
 
-  if (notFound) {
-    navigate('/404')
-    return null
-  }
+  if (notFound) { navigate('/404'); return null }
+
+  // Color shortcuts
+  const gold = '#b8860b'
+  const gold2 = '#d4af37'
+  const text = '#2c1810'
+  const muted = 'rgba(44,24,16,0.55)'
+  const soft = 'rgba(44,24,16,0.38)'
 
   return (
     <>
-      <AnimatePresence>
-        {showLoader && <Loader key="loader" onComplete={handleLoaderDone} />}
-      </AnimatePresence>
+      <AnimatePresence>{showLoader && <Loader key="loader" onComplete={handleLoaderDone} />}</AnimatePresence>
 
       {!showLoader && (
-        <div style={{ position: 'relative', minHeight: '100vh', background: '#0a0a0a' }}>
-          <ParticleCanvas />
+        <div style={{ position: 'relative', minHeight: '100vh', background: '#fdf8f0' }}>
+          <FloralBackground />
           <RosePetals />
 
-          <div style={{ position: 'relative', zIndex: 2, maxWidth: '720px', margin: '0 auto', padding: 'clamp(32px, 6vw, 80px) clamp(16px, 4vw, 40px)' }}>
+          <div style={{ position: 'relative', zIndex: 2, maxWidth: '720px', margin: '0 auto', padding: 'clamp(32px,6vw,80px) clamp(16px,4vw,40px)' }}>
 
             {/* ── HERO ── */}
-            <motion.div
-              variants={heroVariants}
-              initial="hidden"
-              animate="visible"
-              style={{ textAlign: 'center', marginBottom: 'clamp(48px, 8vw, 96px)' }}
-            >
-              {/* Top ornament */}
-              <motion.div variants={heroItem} style={{ marginBottom: '28px' }}>
-                <svg width="120" height="24" viewBox="0 0 120 24" fill="none" style={{ margin: '0 auto', display: 'block' }}>
-                  <line x1="0" y1="12" x2="48" y2="12" stroke="rgba(212,175,55,0.35)" strokeWidth="0.5"/>
-                  <polygon points="55,12 60,6 65,12 60,18" fill="none" stroke="rgba(212,175,55,0.5)" strokeWidth="0.8"/>
-                  <line x1="72" y1="12" x2="120" y2="12" stroke="rgba(212,175,55,0.35)" strokeWidth="0.5"/>
+            <motion.div variants={heroVariants} initial="hidden" animate="visible" style={{ textAlign: 'center', marginBottom: 'clamp(48px,8vw,96px)' }}>
+
+              {/* Floral top ornament */}
+              <motion.div variants={heroItem} style={{ marginBottom: '20px' }}>
+                <svg width="160" height="60" viewBox="0 0 160 60" style={{ margin: '0 auto', display: 'block' }}>
+                  <line x1="0" y1="38" x2="55" y2="38" stroke="rgba(184,134,11,0.3)" strokeWidth="0.5"/>
+                  <line x1="105" y1="38" x2="160" y2="38" stroke="rgba(184,134,11,0.3)" strokeWidth="0.5"/>
+                  <circle cx="80" cy="30" r="12" fill="#f0b8be" opacity="0.7"/>
+                  <circle cx="80" cy="30" r="7" fill="#f5c8cc" opacity="0.8"/>
+                  <circle cx="80" cy="30" r="3.5" fill="#fad8da"/>
+                  <circle cx="58" cy="36" r="8" fill="#e8a0b0" opacity="0.6"/>
+                  <circle cx="58" cy="36" r="4.5" fill="#f0b8be" opacity="0.7"/>
+                  <circle cx="102" cy="36" r="8" fill="#e8a0b0" opacity="0.6"/>
+                  <circle cx="102" cy="36" r="4.5" fill="#f0b8be" opacity="0.7"/>
+                  <ellipse cx="66" cy="48" rx="5" ry="12" fill="#8fae7e" opacity="0.45" transform="rotate(-20 66 48)"/>
+                  <ellipse cx="94" cy="48" rx="5" ry="12" fill="#7a9e6e" opacity="0.45" transform="rotate(20 94 48)"/>
+                  <circle cx="44" cy="40" r="5" fill="#d4889a" opacity="0.5"/>
+                  <circle cx="116" cy="40" r="5" fill="#d4889a" opacity="0.5"/>
                 </svg>
               </motion.div>
 
               {/* Scripture */}
-              <motion.p variants={heroItem} style={{
-                fontFamily: 'Cormorant Garamond, serif',
-                fontStyle: 'italic',
-                fontSize: 'clamp(15px, 3vw, 20px)',
-                color: 'rgba(245,240,232,0.55)',
-                lineHeight: 1.8,
-                marginBottom: '36px',
-                maxWidth: '520px',
-                margin: '0 auto 36px',
-              }}>
+              <motion.p variants={heroItem} style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: 'clamp(15px,3vw,20px)', color: muted, lineHeight: 1.8, marginBottom: '36px', maxWidth: '520px', margin: '0 auto 36px' }}>
                 "I have found the one whom my soul loves."<br />
-                <span style={{ fontSize: '0.75em', letterSpacing: '0.1em', fontFamily: 'Cinzel, serif', fontStyle: 'normal' }}>— Song of Solomon 3:4</span>
+                <span style={{ fontSize: '0.75em', letterSpacing: '0.1em', fontFamily: 'Cinzel, serif', fontStyle: 'normal', color: soft }}>— Song of Solomon 3:4</span>
               </motion.p>
 
-              {/* Personalized greeting */}
+              {/* Greeting */}
               <motion.div variants={heroItem} style={{ marginBottom: '16px' }}>
-                <p style={{
-                  fontFamily: 'Cinzel, serif',
-                  fontSize: 'clamp(10px, 2vw, 13px)',
-                  letterSpacing: '0.3em',
-                  color: 'rgba(212,175,55,0.6)',
-                  textTransform: 'uppercase',
-                  marginBottom: '8px',
-                }}>
+                <p style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(10px,2vw,13px)', letterSpacing: '0.3em', color: gold, textTransform: 'uppercase', marginBottom: '8px' }}>
                   Dear {firstName},
                 </p>
               </motion.div>
 
-              {/* Host names */}
+              {/* Hosts */}
               <motion.div variants={heroItem} style={{ marginBottom: '8px' }}>
-                <div style={{
-                  fontFamily: 'Cinzel Decorative, serif',
-                  fontSize: 'clamp(14px, 3vw, 20px)',
-                  color: '#d4af37',
-                  letterSpacing: '0.08em',
-                }}>
+                <div style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: 'clamp(14px,3vw,20px)', color: gold, letterSpacing: '0.08em' }}>
                   Mr &amp; Mrs Biju Thomas
                 </div>
               </motion.div>
 
               <motion.div variants={heroItem}>
-                <p style={{
-                  fontFamily: 'Cormorant Garamond, serif',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(15px, 3vw, 19px)',
-                  color: 'rgba(245,240,232,0.6)',
-                  lineHeight: 1.8,
-                  maxWidth: '520px',
-                  margin: '0 auto 40px',
-                }}>
+                <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: 'clamp(15px,3vw,19px)', color: muted, lineHeight: 1.8, maxWidth: '520px', margin: '0 auto 40px' }}>
                   extend their warm greetings and have the pleasure of inviting<br />
-                  you and your family to grace the betrothal ceremony of<br />their daughter
+                  you and your family to grace the betrothal ceremony of their daughter
                 </p>
               </motion.div>
 
-              {/* Honorees */}
+              {/* Honoree 1 */}
               <motion.div variants={heroItem} style={{ marginBottom: '8px' }}>
-                <div style={{
-                  fontFamily: 'Cinzel Decorative, serif',
-                  fontSize: 'clamp(26px, 6vw, 48px)',
-                  color: '#f5f0e8',
-                  letterSpacing: '0.04em',
-                  lineHeight: 1.1,
-                }}>
+                <div style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: 'clamp(26px,6vw,48px)', color: text, letterSpacing: '0.04em', lineHeight: 1.1 }}>
                   Herald Thomas
                 </div>
-                <div style={{
-                  fontFamily: 'Cormorant Garamond, serif',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(12px, 2.5vw, 15px)',
-                  color: 'rgba(245,240,232,0.4)',
-                  marginTop: '6px',
-                  marginBottom: '24px',
-                }}>
+                <div style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: 'clamp(12px,2.5vw,15px)', color: soft, marginTop: '6px', marginBottom: '24px' }}>
                   Son of Kannambuzha M.D. Thomas and Sheela Thomas, Kuriachira
                 </div>
               </motion.div>
 
-              <motion.div variants={heroItem} style={{ marginBottom: '8px' }}>
-                {/* Weds separator */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center', marginBottom: '24px' }}>
-                  <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.3))' }} />
-                  <div style={{
-                    fontFamily: 'Cinzel, serif',
-                    fontSize: '10px',
-                    letterSpacing: '0.4em',
-                    color: 'rgba(212,175,55,0.7)',
-                    textTransform: 'uppercase',
-                  }}>
-                    WEDS
-                  </div>
-                  <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to left, transparent, rgba(212,175,55,0.3))' }} />
+              {/* Weds divider with floral */}
+              <motion.div variants={heroItem} style={{ marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', marginBottom: '24px' }}>
+                  <div style={{ flex: 1, height: '1px', background: `linear-gradient(to right, transparent, rgba(184,134,11,0.3))` }} />
+                  <svg width="48" height="24" viewBox="0 0 48 24">
+                    <circle cx="24" cy="12" r="6" fill="#f0b8be" opacity="0.7"/>
+                    <circle cx="24" cy="12" r="3.5" fill="#fad8da"/>
+                    <circle cx="10" cy="14" r="4" fill="#e8a0b0" opacity="0.6"/>
+                    <circle cx="38" cy="14" r="4" fill="#e8a0b0" opacity="0.6"/>
+                  </svg>
+                  <div style={{ fontFamily: 'Cinzel, serif', fontSize: '10px', letterSpacing: '0.4em', color: gold, textTransform: 'uppercase' }}>WEDS</div>
+                  <svg width="48" height="24" viewBox="0 0 48 24">
+                    <circle cx="24" cy="12" r="6" fill="#f0b8be" opacity="0.7"/>
+                    <circle cx="24" cy="12" r="3.5" fill="#fad8da"/>
+                    <circle cx="10" cy="14" r="4" fill="#e8a0b0" opacity="0.6"/>
+                    <circle cx="38" cy="14" r="4" fill="#e8a0b0" opacity="0.6"/>
+                  </svg>
+                  <div style={{ flex: 1, height: '1px', background: `linear-gradient(to left, transparent, rgba(184,134,11,0.3))` }} />
                 </div>
 
-                <div style={{
-                  fontFamily: 'Cinzel Decorative, serif',
-                  fontSize: 'clamp(26px, 6vw, 48px)',
-                  color: '#f5f0e8',
-                  letterSpacing: '0.04em',
-                  lineHeight: 1.1,
-                }}>
+                {/* Honoree 2 */}
+                <div style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: 'clamp(26px,6vw,48px)', color: text, letterSpacing: '0.04em', lineHeight: 1.1 }}>
                   Angel Biju
                 </div>
-                <div style={{
-                  fontFamily: 'Cormorant Garamond, serif',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(12px, 2.5vw, 15px)',
-                  color: 'rgba(245,240,232,0.4)',
-                  marginTop: '6px',
-                }}>
+                <div style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: 'clamp(12px,2.5vw,15px)', color: soft, marginTop: '6px' }}>
                   Daughter of Olakkenkil Biju Thomas and Swapna Biju
                 </div>
               </motion.div>
 
-              <motion.div variants={heroItem} style={{ marginTop: '24px' }}>
-                <p style={{
-                  fontFamily: 'Cinzel, serif',
-                  fontSize: '10px',
-                  letterSpacing: '0.35em',
-                  color: 'rgba(212,175,55,0.5)',
-                  textTransform: 'uppercase',
-                }}>
+              <motion.div variants={heroItem} style={{ marginTop: '20px' }}>
+                <p style={{ fontFamily: 'Cinzel, serif', fontSize: '10px', letterSpacing: '0.35em', color: 'rgba(184,134,11,0.55)', textTransform: 'uppercase' }}>
                   With God's Blessing
                 </p>
               </motion.div>
@@ -220,16 +158,9 @@ export default function InvitePage() {
 
             {/* ── COUNTDOWN ── */}
             <Reveal>
-              <div className="deco-card shimmer" style={{ padding: 'clamp(28px, 5vw, 48px)', textAlign: 'center', marginBottom: 'clamp(40px, 7vw, 72px)', borderRadius: '2px' }}>
+              <div className="deco-card shimmer" style={{ padding: 'clamp(28px,5vw,48px)', textAlign: 'center', marginBottom: 'clamp(40px,7vw,72px)', borderRadius: '4px' }}>
                 <div className="corner-tr" /><div className="corner-bl" />
-                <div style={{
-                  fontFamily: 'Cinzel, serif',
-                  fontSize: '9px',
-                  letterSpacing: '0.35em',
-                  color: 'rgba(212,175,55,0.5)',
-                  textTransform: 'uppercase',
-                  marginBottom: '24px',
-                }}>
+                <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.35em', color: 'rgba(184,134,11,0.55)', textTransform: 'uppercase', marginBottom: '24px' }}>
                   Counting Down To The Celebration
                 </div>
                 <Countdown />
@@ -238,7 +169,7 @@ export default function InvitePage() {
 
             {/* ── EVENT CARD ── */}
             <Reveal>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: 'clamp(40px, 7vw, 72px)' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: 'clamp(40px,7vw,72px)' }}>
                 <EventCard
                   label="Betrothal Ceremony"
                   dayDate="1st October 2026"
@@ -252,59 +183,25 @@ export default function InvitePage() {
 
             {/* ── RSVP ── */}
             <Reveal>
-              <div className="deco-card shimmer" style={{ padding: 'clamp(28px, 5vw, 48px)', marginBottom: 'clamp(40px, 7vw, 72px)', borderRadius: '2px' }}>
+              <div className="deco-card shimmer" style={{ padding: 'clamp(28px,5vw,48px)', marginBottom: 'clamp(40px,7vw,72px)', borderRadius: '4px' }}>
                 <div className="corner-tr" /><div className="corner-bl" />
                 <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-                  <div style={{
-                    fontFamily: 'Cinzel, serif',
-                    fontSize: '9px',
-                    letterSpacing: '0.35em',
-                    color: 'rgba(212,175,55,0.5)',
-                    textTransform: 'uppercase',
-                    marginBottom: '12px',
-                  }}>
-                    RSVP
-                  </div>
-                  <div style={{ width: '40px', height: '1px', background: 'rgba(212,175,55,0.25)', margin: '0 auto' }} />
+                  <div style={{ fontFamily: 'Cinzel, serif', fontSize: '9px', letterSpacing: '0.35em', color: 'rgba(184,134,11,0.55)', textTransform: 'uppercase', marginBottom: '12px' }}>RSVP</div>
+                  <div style={{ width: '40px', height: '1px', background: 'rgba(184,134,11,0.25)', margin: '0 auto' }} />
                 </div>
                 {invitee ? (
-                  <RSVPFlow
-                    inviteeId={invitee.id}
-                    guestName={guestName}
-                    initialRsvp={invitee.rsvp}
-                  />
+                  <RSVPFlow inviteeId={invitee.id} guestName={guestName} initialRsvp={invitee.rsvp} />
                 ) : (
-                  <div style={{ textAlign: 'center', color: 'rgba(245,240,232,0.3)', fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>
-                    Loading…
-                  </div>
+                  <div style={{ textAlign: 'center', color: muted, fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic' }}>Loading…</div>
                 )}
               </div>
             </Reveal>
 
-            {/* ── WHATSAPP SHARE ── */}
+            {/* ── WHATSAPP ── */}
             <Reveal>
-              <div style={{ marginBottom: 'clamp(40px, 7vw, 72px)' }}>
-                <a
-                  href={`https://wa.me/?text=${waMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '12px',
-                    width: '100%',
-                    padding: '16px',
-                    background: 'linear-gradient(135deg, #25d366, #128c7e)',
-                    borderRadius: '2px',
-                    textDecoration: 'none',
-                    fontFamily: 'Cinzel, serif',
-                    fontSize: '11px',
-                    letterSpacing: '0.25em',
-                    color: '#fff',
-                    textTransform: 'uppercase',
-                    transition: 'opacity 0.3s',
-                  }}
+              <div style={{ marginBottom: 'clamp(40px,7vw,72px)' }}>
+                <a href={`https://wa.me/?text=${waMessage}`} target="_blank" rel="noopener noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', width: '100%', padding: '16px', background: 'linear-gradient(135deg, #25d366, #128c7e)', borderRadius: '4px', textDecoration: 'none', fontFamily: 'Cinzel, serif', fontSize: '11px', letterSpacing: '0.25em', color: '#fff', textTransform: 'uppercase', transition: 'opacity 0.3s' }}
                   onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
                   onMouseLeave={e => e.currentTarget.style.opacity = '1'}
                 >
@@ -318,30 +215,22 @@ export default function InvitePage() {
 
             {/* ── BLESSING ── */}
             <Reveal>
-              <div style={{ textAlign: 'center', marginBottom: 'clamp(40px, 7vw, 72px)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px', justifyContent: 'center' }}>
-                  <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.25))' }} />
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <polygon points="8,1 9.5,6 15,6 10.5,9.5 12,15 8,11.5 4,15 5.5,9.5 1,6 6.5,6" fill="none" stroke="rgba(212,175,55,0.4)" strokeWidth="0.8"/>
-                  </svg>
-                  <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to left, transparent, rgba(212,175,55,0.25))' }} />
-                </div>
-                <p style={{
-                  fontFamily: 'Cormorant Garamond, serif',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(16px, 3vw, 21px)',
-                  color: 'rgba(245,240,232,0.55)',
-                  lineHeight: 1.9,
-                  maxWidth: '500px',
-                  margin: '0 auto 16px',
-                }}>
+              <div style={{ textAlign: 'center', marginBottom: 'clamp(40px,7vw,72px)' }}>
+                <svg width="120" height="50" viewBox="0 0 120 50" style={{ margin: '0 auto 20px', display: 'block' }}>
+                  <line x1="0" y1="28" x2="42" y2="28" stroke="rgba(184,134,11,0.25)" strokeWidth="0.5"/>
+                  <line x1="78" y1="28" x2="120" y2="28" stroke="rgba(184,134,11,0.25)" strokeWidth="0.5"/>
+                  <circle cx="60" cy="20" r="10" fill="#f0b8be" opacity="0.6"/>
+                  <circle cx="60" cy="20" r="6" fill="#f5c8cc" opacity="0.7"/>
+                  <circle cx="60" cy="20" r="3" fill="#fad8da"/>
+                  <circle cx="46" cy="26" r="6" fill="#e8a0b0" opacity="0.5"/>
+                  <circle cx="74" cy="26" r="6" fill="#e8a0b0" opacity="0.5"/>
+                  <ellipse cx="52" cy="38" rx="4" ry="9" fill="#8fae7e" opacity="0.4" transform="rotate(-15 52 38)"/>
+                  <ellipse cx="68" cy="38" rx="4" ry="9" fill="#7a9e6e" opacity="0.4" transform="rotate(15 68 38)"/>
+                </svg>
+                <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: 'clamp(16px,3vw,21px)', color: muted, lineHeight: 1.9, maxWidth: '500px', margin: '0 auto 16px' }}>
                   May Almighty bless this marriage with love, happiness, understanding, good health, and endless prosperity.
                 </p>
-                <div style={{
-                  fontFamily: 'Cinzel Decorative, serif',
-                  fontSize: 'clamp(16px, 3vw, 22px)',
-                  color: 'rgba(212,175,55,0.7)',
-                }}>
+                <div style={{ fontFamily: 'Cinzel Decorative, serif', fontSize: 'clamp(16px,3vw,22px)', color: gold }}>
                   Amen
                 </div>
               </div>
@@ -349,19 +238,17 @@ export default function InvitePage() {
 
             {/* ── FOOTER ── */}
             <Reveal>
-              <div style={{ textAlign: 'center', paddingTop: '20px', borderTop: '1px solid rgba(212,175,55,0.08)' }}>
-                <svg width="80" height="16" viewBox="0 0 80 16" fill="none" style={{ margin: '0 auto 16px', display: 'block' }}>
-                  <line x1="0" y1="8" x2="30" y2="8" stroke="rgba(212,175,55,0.2)" strokeWidth="0.5"/>
-                  <polygon points="37,8 40,3 43,8 40,13" fill="rgba(212,175,55,0.3)"/>
-                  <line x1="50" y1="8" x2="80" y2="8" stroke="rgba(212,175,55,0.2)" strokeWidth="0.5"/>
+              <div style={{ textAlign: 'center', paddingTop: '20px', borderTop: '1px solid rgba(184,134,11,0.12)' }}>
+                <svg width="80" height="32" viewBox="0 0 80 32" style={{ margin: '0 auto 14px', display: 'block' }}>
+                  <line x1="0" y1="16" x2="28" y2="16" stroke="rgba(184,134,11,0.2)" strokeWidth="0.5"/>
+                  <line x1="52" y1="16" x2="80" y2="16" stroke="rgba(184,134,11,0.2)" strokeWidth="0.5"/>
+                  <circle cx="40" cy="12" r="7" fill="#f0b8be" opacity="0.55"/>
+                  <circle cx="40" cy="12" r="4" fill="#f5c8cc" opacity="0.65"/>
+                  <circle cx="40" cy="12" r="2" fill="#fad8da"/>
+                  <circle cx="30" cy="16" r="4" fill="#e8a0b0" opacity="0.45"/>
+                  <circle cx="50" cy="16" r="4" fill="#e8a0b0" opacity="0.45"/>
                 </svg>
-                <p style={{
-                  fontFamily: 'Cormorant Garamond, serif',
-                  fontStyle: 'italic',
-                  fontSize: '15px',
-                  color: 'rgba(245,240,232,0.3)',
-                  letterSpacing: '0.05em',
-                }}>
+                <p style={{ fontFamily: 'Cormorant Garamond, serif', fontStyle: 'italic', fontSize: '15px', color: soft, letterSpacing: '0.05em' }}>
                   No gifts please, just your love and prayers
                 </p>
               </div>

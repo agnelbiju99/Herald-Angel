@@ -3,19 +3,20 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0a0a0a;
-  --accent: #d4af37;
-  --accent2: #f5d76e;
-  --card: #111111;
-  --text: #f5f0e8;
-  --muted: rgba(245, 240, 232, 0.5);
-  --border: rgba(212, 175, 55, 0.2);
-  --inner-border: rgba(212, 175, 55, 0.12);
-  --corner: rgba(212, 175, 55, 0.18);
+  --bg: #fdf8f0;
+  --bg2: #faf3e8;
+  --accent: #b8860b;
+  --accent2: #d4af37;
+  --accent-light: #e8c96a;
+  --card: #fffdf7;
+  --text: #2c1810;
+  --muted: rgba(44, 24, 16, 0.5);
+  --border: rgba(184, 134, 11, 0.25);
+  --inner-border: rgba(184, 134, 11, 0.12);
+  --corner: rgba(184, 134, 11, 0.3);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -29,11 +30,14 @@ body {
 .font-label { font-family: 'Cinzel', serif; }
 .font-body { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-/* Art Deco Card */
+/* Floral Card */
 .deco-card {
   background: var(--card);
   border: 1px solid var(--border);
-  box-shadow: inset 0 0 0 10px var(--inner-border);
+  box-shadow: 
+    inset 0 0 0 8px var(--inner-border),
+    0 4px 24px rgba(184,134,11,0.08),
+    0 1px 4px rgba(184,134,11,0.06);
   position: relative;
   overflow: hidden;
 }
@@ -48,51 +52,34 @@ body {
   border-style: solid;
   border-width: 0;
 }
-
 .deco-card::before {
   top: 8px; left: 8px;
   border-top-width: 1.5px;
   border-left-width: 1.5px;
 }
-
 .deco-card::after {
   bottom: 8px; right: 8px;
   border-bottom-width: 1.5px;
   border-right-width: 1.5px;
 }
-
 .deco-card .corner-tr,
 .deco-card .corner-bl {
   position: absolute;
-  width: 18px;
-  height: 18px;
+  width: 18px; height: 18px;
   border-color: var(--corner);
-  border-style: solid;
-  border-width: 0;
+  border-style: solid; border-width: 0;
 }
-.deco-card .corner-tr {
-  top: 8px; right: 8px;
-  border-top-width: 1.5px;
-  border-right-width: 1.5px;
-}
-.deco-card .corner-bl {
-  bottom: 8px; left: 8px;
-  border-bottom-width: 1.5px;
-  border-left-width: 1.5px;
-}
+.deco-card .corner-tr { top: 8px; right: 8px; border-top-width: 1.5px; border-right-width: 1.5px; }
+.deco-card .corner-bl { bottom: 8px; left: 8px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
 
 /* Shimmer */
-.shimmer {
-  position: relative;
-  overflow: hidden;
-}
+.shimmer { position: relative; overflow: hidden; }
 .shimmer::after {
   content: '';
   position: absolute;
   top: 0; left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.06), transparent);
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.07), transparent);
   animation: shimmer 7s infinite;
 }
 @keyframes shimmer {
@@ -100,26 +87,17 @@ body {
   100% { left: 200%; }
 }
 
-/* Countdown glow */
+/* Countdown */
 .countdown-digit {
   font-family: 'Cinzel Decorative', serif;
   font-weight: 300;
   font-size: clamp(40px, 6vw, 64px);
   color: var(--accent);
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+  text-shadow: 0 2px 8px rgba(184,134,11,0.15);
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-/* Canvas BG */
-#particle-canvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
+::-webkit-scrollbar-thumb { background: rgba(184,134,11,0.2); border-radius: 2px; }
